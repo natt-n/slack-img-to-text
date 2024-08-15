@@ -12,8 +12,8 @@ import 'filepond/dist/filepond.min.css';
 const App = () => (
   <Router>
     <Routes>
-      <Route path="/" element={<POC_OCR />} /> {/* Default route */}
-      <Route path="/ocr" element={<Ocr />} /> {/* Route for OCR */}
+      <Route path="/" element={<Ocr />} /> {/* Default route */}
+      <Route path="/other-ocr" element={<POC_OCR />} /> {/* Route for OCR */}
       {/* Add more routes here if needed */}
     </Routes>
   </Router>
