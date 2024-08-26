@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Progress, Select, Button, message } from 'antd';
+import { Row, Col, Card, Progress, Button, message } from 'antd';
 import { FilePond } from 'react-filepond';
 import { createWorker } from 'tesseract.js';
 
 const { Meta } = Card;
-const { Option } = Select;
 
 const Ocr = () => {
     const [img, setImg] = useState(null);
@@ -46,7 +45,7 @@ const Ocr = () => {
 
     useEffect(() => {
         if (language === null) {
-            message.error('Select your language');
+            message.error('Please select a language');
         } else if (img) {
             handleOcr();
         }
@@ -90,23 +89,13 @@ const Ocr = () => {
                         progress.pctg > 0 ? <Progress percent={progress.pctg} showInfo={false} /> : progress.status
                     ]}
                 >
-                    <Select
-                        value={language}
-                        showSearch
+                    <Button
+                        type="primary"
                         style={{ width: '100%' }}
-                        placeholder="Select a language"
-                        optionFilterProp="children"
-                        onChange={e => setLanguage(e)}
-                        filterOption={(input, option) =>
-                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
+                        onClick={() => setLanguage('eng')}
                     >
-                        <Option value="eng">English</Option>
-                        <Option value="ara">Arabic</Option>
-                        <Option value="fra">French</Option>
-                        <Option value="ita">Italian</Option>
-                        <Option value="jpn">Japanese</Option>
-                    </Select>
+                        Generate Text
+                    </Button>
                 </Card>
             </Col>
             <div style={{ display: 'flex', alignItems: 'flex-start', margin: "10px"}}>
