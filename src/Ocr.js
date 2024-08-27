@@ -45,7 +45,7 @@ const Ocr = () => {
 
     useEffect(() => {
         if (language === null) {
-            message.error('Please select a language');
+            message.error('Upload image and generate text');
         } else if (img) {
             handleOcr();
         }
@@ -71,7 +71,7 @@ const Ocr = () => {
         <Row>
             <Col md={{ span: 12, offset: 6 }} sm={{ span: 22, offset: 1 }}>
                 <br />
-                <h1 align="center">Tesseract OCR</h1>
+                <h1 align="center">Tesseract.JS OCR</h1>
                 <br />
                 <Card
                     style={{ width: '100%' }}
