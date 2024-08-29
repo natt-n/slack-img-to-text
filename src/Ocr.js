@@ -7,7 +7,7 @@ const { Meta } = Card;
 
 const Ocr = () => {
     const [img, setImg] = useState(null);
-    const [imgUrl, setImgUrl] = useState(null); // State to store image URL
+    const [imgUrl, setImgUrl] = useState(null); 
     const [text, setText] = useState(null);
     const [progress, setProgress] = useState({ pctg: 0, status: null });
     const [language, setLanguage] = useState(null);
@@ -37,7 +37,7 @@ const Ocr = () => {
 
     const resetAll = () => {
         setImg(null);
-        setImgUrl(null); // Reset image URL
+        setImgUrl(null);
         setText(null);
         setProgress({ pctg: 0, status: null });
         setLanguage(null);
@@ -45,7 +45,7 @@ const Ocr = () => {
 
     useEffect(() => {
         if (language === null) {
-            message.error('Upload image and generate text');
+            message.error('Upload image to generate text');
         } else if (img) {
             handleOcr();
         }
@@ -54,7 +54,8 @@ const Ocr = () => {
     const handleFileAdd = (err, file) => {
         if (file) {
             setImg(file.file);
-            setImgUrl(URL.createObjectURL(file.file)); // Create image URL
+            setImgUrl(URL.createObjectURL(file.file));
+            setLanguage('eng');
         }
     };
 
@@ -89,13 +90,6 @@ const Ocr = () => {
                         progress.pctg > 0 ? <Progress percent={progress.pctg} showInfo={false} /> : progress.status
                     ]}
                 >
-                    <Button
-                        type="primary"
-                        style={{ width: '100%' }}
-                        onClick={() => setLanguage('eng')}
-                    >
-                        Generate Text
-                    </Button>
                 </Card>
             </Col>
             <div style={{ display: 'flex', alignItems: 'flex-start', margin: "10px"}}>

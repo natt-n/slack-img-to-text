@@ -1,8 +1,16 @@
 # slack-img-to-text
 Using Tesseract.js
 
-Run the following commands: 
+Run using the following commands: 
+- npm install 
+- npm start
 
-npm install 
+Process
+- localhost:3000 
+    Upload your screenshot - make sure it is cropped to the specific text you're looking to process
+    Click 'Generate Text'
+    Copy the generated text
 
-npm start
+- localhost:3000/text-processor
+    Paste the generated text that was copied
+    

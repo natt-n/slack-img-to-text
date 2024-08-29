@@ -5,7 +5,6 @@ import './index.css';
 import 'antd/dist/antd.css';
 import Ocr from './Ocr';
 import TextFormatter from './text_processor';
-import POC_OCR from './POC_OCR';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 import 'filepond/dist/filepond.min.css';
 
