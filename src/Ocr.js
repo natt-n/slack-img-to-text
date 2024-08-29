@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, Progress, Button, message } from 'antd';
 import { FilePond } from 'react-filepond';
 import { createWorker } from 'tesseract.js';
+import Typo from 'typo-js';
 
 const { Meta } = Card;
 
@@ -12,6 +13,8 @@ const Ocr = () => {
     const [progress, setProgress] = useState({ pctg: 0, status: null });
     const [language, setLanguage] = useState(null);
     const [copySuccess, setCopySuccess] = useState('');
+    const [formattedText, setFormattedText] = useState('');
+    const dictionary = new Typo("en_US", false, false, { dictionaryPath: "./dictionaries" });
 
     const worker = createWorker({
         logger: m => {
@@ -22,6 +25,70 @@ const Ocr = () => {
         }
     });
 
+    //if typo-js can be used. but it is very slow
+    /*const formatWord = (word) => {
+        word = word.trim();
+    
+        if (!dictionary.check(word)) {
+            const suggestions = dictionary.suggest(word);
+            if(suggestions.length > 0){
+              return (suggestions[0]);
+            } else {
+              return word;
+            }
+        }
+    
+        return word;
+      };*/
+    
+      const formatLine = (line) => { 
+    
+        const words = line.split(' ');
+    
+        for (let i = 0; i < words.length; i++) {
+            
+            if (/^[^a-zA-Z0-9]*$/.test(words[i])) { //if word is not alphanumeric
+                words[i] = "";
+                console.log(words[i] + " is not alphanumeric");
+            } else if (words[i].length === 1 && words[i] !== "I") {
+                words[i] = "";
+                console.log(words[i] + " is a single character");
+            } else {
+                break;
+            }
+        }
+          
+          // Join words with spaces and return
+          return words.join(' ');
+    
+        };
+    
+      const formatText = () => {
+        if(!text){return;}
+
+        // Split text into lines
+        const lines = text.split('\n');
+        
+        // Map through each line
+        const formattedLines = lines.map(line => {
+          //if it has name or timestamp, add extra line
+          if(/(?=.*\b[A-Z][a-z]*\b)(?=.*\b\d{1,2}:\d{2}(?:[ap]m)?\b)/.test(formatLine(line))){
+            return  "<br /><b>" + formatLine(line) + "</b>";
+          }
+    
+          //if it has a week day and a date (18th for example)
+          if(/^(?=.*\b[A-Z][a-z]*\b)(?=.*\b\d{1,2}(?:st|nd|rd|th)\b)/.test(formatLine(line))){
+            return  "<br /><b><u>" + formatLine(line) + "</u></b>";
+          }
+    
+          return ">> " + formatLine(line);
+        });
+        
+        const formatted = formattedLines.join('<br />');
+        
+        setFormattedText(formatted);
+      };
+
     const handleOcr = async () => {
         if (img) {
             setText(null);
@@ -30,7 +97,8 @@ const Ocr = () => {
             await worker.loadLanguage(language);
             await worker.initialize(language);
             const { data: { text } } = await worker.recognize(img);
-            setText(text);
+            setText(text || '');
+            console.log(text); 
             await worker.terminate();
         }
     };
@@ -41,6 +109,7 @@ const Ocr = () => {
         setText(null);
         setProgress({ pctg: 0, status: null });
         setLanguage(null);
+        setFormattedText('');
     };
 
     useEffect(() => {
@@ -50,6 +119,12 @@ const Ocr = () => {
             handleOcr();
         }
     }, [img, language]);
+
+    useEffect(() => {
+        if(text){
+            formatText();
+        }
+    }, [text]);
 
     const handleFileAdd = (err, file) => {
         if (file) {

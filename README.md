@@ -8,9 +8,7 @@ Run using the following commands:
 Process
 - localhost:3000 
     Upload your screenshot - make sure it is cropped to the specific text you're looking to process
-    Click 'Generate Text'
     Copy the generated text
 
 - localhost:3000/text-processor
     Paste the generated text that was copied
-    

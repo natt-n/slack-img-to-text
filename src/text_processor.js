@@ -15,22 +15,21 @@ const TextFormatter = () => {
     setText(e.target.value);
   };
 
-  const formatWord = (word) => {
-    word = word.trim();
-
-    if (!dictionary.check(word)) {
-        const suggestions = dictionary.suggest(word);
-        if(suggestions.length > 0){
-          return (suggestions[0]);
-        } else {
-          return word;
+  //if typo-js can be used. but it is very slow
+    /*const formatWord = (word) => {
+        word = word.trim();
+    
+        if (!dictionary.check(word)) {
+            const suggestions = dictionary.suggest(word);
+            if(suggestions.length > 0){
+              return (suggestions[0]);
+            } else {
+              return word;
+            }
         }
-    }
-
-    return word;
-  };
-
-  const isName = (word) => /^[A-Z][a-z]*$/.test(word);
+    
+        return word;
+      };*/
 
   const formatLine = (line) => { 
 
